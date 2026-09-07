@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/pvlearning002/go_assignment01/internal/config"
 	"github.com/pvlearning002/go_assignment01/internal/handler"
@@ -9,6 +11,7 @@ import (
 
 type Engine interface {
 	Start() error
+	ServeHTTP(w http.ResponseWriter, r *http.Request)
 	InitRoutes()
 }
 
@@ -24,6 +27,10 @@ func NewEngine() Engine {
 
 func (e *engine) Start() error {
 	return e.app.Run(config.PORT_DEFAULT)
+}
+
+func (e *engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	e.app.ServeHTTP(w, r)
 }
 
 func (e *engine) InitRoutes() {
