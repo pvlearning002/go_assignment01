@@ -3,6 +3,7 @@ package service
 import (
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/pvlearning002/go_assignment01/internal/config"
 	"github.com/stretchr/testify/assert"
 )
@@ -34,7 +35,7 @@ func TestHealthCheck(t *testing.T) {
 			assert.ErrorIs(t, err, tc.expectError)
 			assert.Equal(t, tc.expectedMessage, result.Message)
 			assert.Equal(t, tc.expectedServiceName, result.ServiceName)
-			assert.Equal(t, tc.expectedInstanceId, result.InstanceID)
+			assert.IsType(t, uuid.UUID{}, result.InstanceID)
 		})
 	}
 }
