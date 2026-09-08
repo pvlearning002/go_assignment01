@@ -34,7 +34,10 @@ func (e *engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (e *engine) InitRoutes() {
+	// Initialize health check route
 	healthCheckService := service.NewHealthCheck()
+	// Initialize health check handler
 	healthCheckHandler := handler.NewHealthCheck(healthCheckService)
+	// Register health check route
 	e.app.GET(config.HEALTH_CHECK_GET_PATH, healthCheckHandler.GenerateHealthCheck)
 }

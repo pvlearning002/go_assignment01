@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/pvlearning002/go_assignment01/internal/config"
-	"github.com/pvlearning002/go_assignment01/internal/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -30,7 +29,8 @@ func TestHealthCheck(t *testing.T) {
 			// Call the HealthCheck function and compare the result with tc.expectedStatus
 			t.Parallel()
 			svc := NewHealthCheck()
-			var result *model.HealthCheck = svc.GenerateHealthCheck()
+			result, err := svc.GenerateHealthCheck()
+			assert.Equal(t, tc.expectError, err)
 			assert.Equal(t, tc.expectedMessage, result.Message)
 			assert.Equal(t, tc.expectedServiceName, result.ServiceName)
 			assert.Equal(t, tc.expectedInstanceId, result.InstanceID)

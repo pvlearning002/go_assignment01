@@ -20,6 +20,10 @@ func NewHealthCheck(svc service.HealthCheck) HealthCheck {
 }
 
 func (h *healthCheck) GenerateHealthCheck(c *gin.Context) {
-	modelHealthCheck := h.svc.GenerateHealthCheck()
+	modelHealthCheck, err := h.svc.GenerateHealthCheck()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+		return
+	}
 	c.JSON(http.StatusOK, modelHealthCheck)
 }

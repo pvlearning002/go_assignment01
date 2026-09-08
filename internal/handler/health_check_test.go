@@ -8,9 +8,18 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/pvlearning002/go_assignment01/internal/config"
+	"github.com/pvlearning002/go_assignment01/internal/model"
 	services_mocks "github.com/pvlearning002/go_assignment01/internal/service/mocks"
 	"github.com/stretchr/testify/assert"
 )
+
+type healthCheckMockAdapter struct {
+	mock *services_mocks.HealthCheckMock
+}
+
+func (a healthCheckMockAdapter) GenerateHealthCheck() (*model.HealthCheck, error) {
+	return a.mock.GenerateHealthCheck(), nil
+}
 
 func TestHealthCheckHandler(t *testing.T) {
 	// Implement your test logic here
@@ -48,7 +57,7 @@ func TestHealthCheckHandler(t *testing.T) {
 			ginCtx, _ := gin.CreateTestContext(rec)
 			tc.setupRequest(ginCtx)
 			mockService := tc.setupMockService(context.Background())
-			handler := NewHealthCheck(mockService)
+			handler := NewHealthCheck(healthCheckMockAdapter{mock: mockService})
 			handler.GenerateHealthCheck(ginCtx)
 			if rec.Code != tc.expectedStatus {
 				t.Errorf("expected status %d, got %d", tc.expectedStatus, rec.Code)

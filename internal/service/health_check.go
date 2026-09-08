@@ -8,7 +8,7 @@ import (
 
 //go:generate mockery --name=HealthCheck --filename=health_check_mck.go
 type HealthCheck interface {
-	GenerateHealthCheck() *model.HealthCheck
+	GenerateHealthCheck() (*model.HealthCheck, error)
 }
 
 type healthCheck struct{}
@@ -26,10 +26,11 @@ func (s *healthCheck) GetInstanceID() uuid.UUID {
 	return result
 }
 
-func (s *healthCheck) GenerateHealthCheck() *model.HealthCheck {
-	return &model.HealthCheck{
+func (s *healthCheck) GenerateHealthCheck() (*model.HealthCheck, error) {
+	result := &model.HealthCheck{
 		Message:     config.OK_STATUS,
 		ServiceName: config.BOOKMARK_SERVICE,
 		InstanceID:  s.GetInstanceID(),
 	}
+	return result, nil
 }
