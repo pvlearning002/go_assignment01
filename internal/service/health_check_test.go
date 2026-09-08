@@ -22,6 +22,7 @@ func TestHealthCheck(t *testing.T) {
 			expectedMessage:     config.OK_STATUS,
 			expectedServiceName: config.BOOKMARK_SERVICE,
 			expectedInstanceId:  config.HEALTH_CHECK_ID_DEFAULT,
+			expectError:         nil,
 		},
 	}
 	for _, tc := range testCases {
@@ -30,7 +31,7 @@ func TestHealthCheck(t *testing.T) {
 			t.Parallel()
 			svc := NewHealthCheck()
 			result, err := svc.GenerateHealthCheck()
-			assert.Equal(t, tc.expectError, err)
+			assert.ErrorIs(t, err, tc.expectError)
 			assert.Equal(t, tc.expectedMessage, result.Message)
 			assert.Equal(t, tc.expectedServiceName, result.ServiceName)
 			assert.Equal(t, tc.expectedInstanceId, result.InstanceID)
