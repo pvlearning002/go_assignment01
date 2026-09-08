@@ -15,7 +15,7 @@ type healthCheck struct {
 	svc service.HealthCheck
 }
 
-func NewHealthCheck(svc service.HealthCheck) *healthCheck {
+func NewHealthCheck(svc service.HealthCheck) HealthCheck {
 	return &healthCheck{svc: svc}
 }
 
