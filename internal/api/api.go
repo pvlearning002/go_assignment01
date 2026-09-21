@@ -20,9 +20,12 @@ type engine struct {
 }
 
 func NewEngine() Engine {
-	return &engine{
+	app := &engine{
 		app: gin.Default(),
 	}
+	// Initialize routes
+	app.InitRoutes()
+	return app
 }
 
 func (e *engine) Start() error {
@@ -34,7 +37,14 @@ func (e *engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (e *engine) InitRoutes() {
-	// Initialize health check route
+	// Initialize gen pass service
+	genPassService := service.NewGenPass()
+	// Initialize gen pass handler
+	genPassHandler := handler.NewGenPass(genPassService)
+	// Register gen pass route
+	e.app.POST(config.GEN_PASS_POST_PATH, genPassHandler.GeneratePassword)
+
+	// Initialize health check service
 	healthCheckService := service.NewHealthCheck()
 	// Initialize health check handler
 	healthCheckHandler := handler.NewHealthCheck(healthCheckService)
