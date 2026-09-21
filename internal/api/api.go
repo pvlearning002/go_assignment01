@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pvlearning002/go_assignment01/internal/config"
 	"github.com/pvlearning002/go_assignment01/internal/handler"
-	"github.com/pvlearning002/go_assignment01/internal/service"
+	service "github.com/pvlearning002/go_assignment01/internal/service"
 )
 
 type Engine interface {
@@ -23,8 +23,6 @@ func NewEngine() Engine {
 	app := &engine{
 		app: gin.Default(),
 	}
-	// Initialize routes
-	app.InitRoutes()
 	return app
 }
 
