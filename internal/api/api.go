@@ -12,7 +12,6 @@ import (
 type Engine interface {
 	Start() error
 	ServeHTTP(w http.ResponseWriter, r *http.Request)
-	InitRoutes()
 }
 
 type engine struct {
@@ -23,6 +22,7 @@ func NewEngine() Engine {
 	app := &engine{
 		app: gin.Default(),
 	}
+	app.initRoutes()
 	return app
 }
 
@@ -34,7 +34,7 @@ func (e *engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	e.app.ServeHTTP(w, r)
 }
 
-func (e *engine) InitRoutes() {
+func (e *engine) initRoutes() {
 	// Initialize gen pass service
 	genPassService := service.NewGenPass()
 	// Initialize gen pass handler
