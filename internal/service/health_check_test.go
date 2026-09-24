@@ -10,6 +10,7 @@ import (
 
 func TestHealthCheck(t *testing.T) {
 	// Implement your test logic here
+	cfg := config.GetConfig()
 	t.Parallel()
 	testCases := []struct {
 		name                string

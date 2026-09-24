@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pvlearning002/go_assignment01/internal/config"
@@ -27,7 +28,7 @@ func NewEngine() Engine {
 }
 
 func (e *engine) Start() error {
-	return e.app.Run(config.PORT_DEFAULT)
+	return e.app.Run(":" + strconv.Itoa(config.APP_PORT))
 }
 
 func (e *engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {

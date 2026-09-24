@@ -3,7 +3,7 @@ package config
 var cfg *Config = CreateNewConfig()
 
 var (
-	PORT_DEFAULT            = cfg.AppPort
+	APP_PORT                = cfg.AppPort
 	OK_STATUS               = cfg.StatusOK
 	BOOKMARK_SERVICE        = cfg.BookmarkService
 	HEALTH_CHECK_ID_DEFAULT = "1010473b-2af9-4556-9e84-ca8e0dd9fa52"
