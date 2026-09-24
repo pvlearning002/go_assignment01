@@ -18,34 +18,35 @@ type engine struct {
 	app *gin.Engine
 }
 
-func NewEngine() Engine {
+func NewEngine(cfg *config.Config) Engine {
 	app := &engine{
 		app: gin.Default(),
 	}
-	app.initRoutes()
+	app.initRoutes(cfg)
 	return app
 }
 
 func (e *engine) Start() error {
-	return e.app.Run(config.PORT_DEFAULT)
+	cfg := config.GetConfig()
+	return e.app.Run(cfg.AppPort) // Pass the configuration to the Run method
 }
 
 func (e *engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	e.app.ServeHTTP(w, r)
 }
 
-func (e *engine) initRoutes() {
+func (e *engine) initRoutes(cfg *config.Config) {
 	// Initialize gen pass service
 	genPassService := service.NewGenPass()
 	// Initialize gen pass handler
 	genPassHandler := handler.NewGenPass(genPassService)
 	// Register gen pass route
-	e.app.GET(config.GEN_PASS_POST_PATH, genPassHandler.GeneratePassword)
+	e.app.GET(cfg.GEN_PASS_POST_PATH, genPassHandler.GeneratePassword)
 
 	// Initialize health check service
 	healthCheckService := service.NewHealthCheck()
 	// Initialize health check handler
 	healthCheckHandler := handler.NewHealthCheck(healthCheckService)
 	// Register health check route
-	e.app.GET(config.HEALTH_CHECK_GET_PATH, healthCheckHandler.GenerateHealthCheck)
+	e.app.GET(cfg., healthCheckHandler.GenerateHealthCheck)
 }

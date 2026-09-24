@@ -15,6 +15,7 @@ import (
 
 type healthCheckMockAdapter struct {
 	mock *services_mocks.HealthCheckMock
+	cfg *config.Config
 }
 
 func (a healthCheckMockAdapter) GenerateHealthCheck() (*model.HealthCheck, error) {
@@ -35,13 +36,12 @@ func TestHealthCheckHandler(t *testing.T) {
 			name: "normal case",
 			setupRequest: func(c *gin.Context) {
 				// Setup your request here
-				c.Request = httptest.NewRequest(http.MethodGet, config.HEALTH_CHECK_GET_PATH, nil)
+				c.Request = httptest.NewRequest(http.MethodGet, cfg, nil)
 			},
 			setupMockService: func(ctx context.Context) *services_mocks.HealthCheckMock {
 				mockService := services_mocks.NewHealthCheckMock(t)
 				// Setup your mock service here
 				response := mockService.GenerateHealthCheck()
-
 				mockService.On("GenerateHealthCheck").Return(response)
 				return mockService
 			},
@@ -57,13 +57,13 @@ func TestHealthCheckHandler(t *testing.T) {
 			ginCtx, _ := gin.CreateTestContext(rec)
 			tc.setupRequest(ginCtx)
 			mockService := tc.setupMockService(context.Background())
-			handler := NewHealthCheck(healthCheckMockAdapter{mock: mockService})
+			handler := NewHealthCheck(healthCheckMockAdapter{mock: mockService, cfg: cfg})
 			handler.GenerateHealthCheck(ginCtx)
 			if rec.Code != tc.expectedStatus {
 				t.Errorf("expected status %d, got %d", tc.expectedStatus, rec.Code)
 			}
 			assert.Equal(t, tc.expectedStatus, rec.Code)
-			assert.Equal(t, tc.expectedResponse, rec.Body.String() == `{"message":config.OK_STATUS,"serviceName":config.BOOKMARK_SERVICE,"instanceID":config.HEALTH_CHECK_ID_DEFAULT}`)
+			assert.Equal(t, tc.expectedResponse, rec.Body.String() == `{"message":"`+cfg.OKStatus+`","serviceName":"`+cfg.BookmarkService+`"}`)
 		})
 	}
 }

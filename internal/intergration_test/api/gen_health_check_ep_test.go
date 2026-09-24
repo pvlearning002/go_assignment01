@@ -11,6 +11,7 @@ import (
 
 func TestGenerateHealthCheckEndpoint(t *testing.T) {
 	// Implement your integration test logic here
+	cfg := config.GetConfig()
 	t.Parallel()
 	testCases := []struct {
 		name string
@@ -41,7 +42,7 @@ func TestGenerateHealthCheckEndpoint(t *testing.T) {
 			if rec.Code != tc.expectedStatus {
 				t.Errorf("expected status %d, got %d", tc.expectedStatus, rec.Code)
 			}
-			if rec.Body.String() == `{"message":config.OK_STATUS,"serviceName":config.BOOKMARK_SERVICE,"instanceID":config.HEALTH_CHECK_ID_DEFAULT}` != tc.expectedResponse {
+			if rec.Body.String() == `{"message":"`+cfg.OKStatus+`","serviceName":"`+cfg.BookmarkService+`"}` != tc.expectedResponse {
 				t.Errorf("expected response %v, got %s", tc.expectedResponse, rec.Body.String())
 			}
 

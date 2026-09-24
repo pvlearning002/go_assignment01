@@ -18,18 +18,14 @@ func NewHealthCheck() HealthCheck {
 }
 
 func (s *healthCheck) GetInstanceID() uuid.UUID {
-	id_str := config.HEALTH_CHECK_ID_DEFAULT
-	result, err := uuid.Parse(id_str)
-	if err != nil {
-		result = uuid.New()
-	}
-	return result
+	return uuid.New()
 }
 
 func (s *healthCheck) GenerateHealthCheck() (*model.HealthCheck, error) {
+	cfg := config.GetConfig()
 	result := &model.HealthCheck{
-		Message:     config.OK_STATUS,
-		ServiceName: config.BOOKMARK_SERVICE,
+		Message:     cfg.OKStatus,
+		ServiceName: cfg.BookmarkService,
 		InstanceID:  s.GetInstanceID(),
 	}
 	return result, nil

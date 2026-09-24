@@ -10,6 +10,7 @@ import (
 
 func TestHealthCheck(t *testing.T) {
 	// Implement your test logic here
+	cfg := config.GetConfig()
 	t.Parallel()
 	testCases := []struct {
 		name                string
@@ -20,9 +21,9 @@ func TestHealthCheck(t *testing.T) {
 	}{
 		{
 			name:                "Health check returns OK",
-			expectedMessage:     config.OK_STATUS,
-			expectedServiceName: config.BOOKMARK_SERVICE,
-			expectedInstanceId:  config.HEALTH_CHECK_ID_DEFAULT,
+			expectedMessage:     cfg.OKStatus,
+			expectedServiceName: cfg.BookmarkService,
+			expectedInstanceId:  uuid.New(),
 			expectError:         nil,
 		},
 	}
