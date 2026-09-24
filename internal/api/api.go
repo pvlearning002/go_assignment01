@@ -40,12 +40,12 @@ func (e *engine) initRoutes() {
 	// Initialize gen pass handler
 	genPassHandler := handler.NewGenPass(genPassService)
 	// Register gen pass route
-	e.app.GET(config.GEN_PASS_POST_PATH, genPassHandler.GeneratePassword)
+	e.app.GET(config.PATH_GET_GEN_PASS, genPassHandler.GeneratePassword)
 
 	// Initialize health check service
 	healthCheckService := service.NewHealthCheck()
 	// Initialize health check handler
 	healthCheckHandler := handler.NewHealthCheck(healthCheckService)
 	// Register health check route
-	e.app.GET(config.HEALTH_CHECK_GET_PATH, healthCheckHandler.GenerateHealthCheck)
+	e.app.GET(config.PATH_GET_HEALTH_CHECK, healthCheckHandler.GenerateHealthCheck)
 }

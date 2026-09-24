@@ -35,7 +35,7 @@ func TestHealthCheckHandler(t *testing.T) {
 			name: "normal case",
 			setupRequest: func(c *gin.Context) {
 				// Setup your request here
-				c.Request = httptest.NewRequest(http.MethodGet, config.HEALTH_CHECK_GET_PATH, nil)
+				c.Request = httptest.NewRequest(http.MethodGet, config.PATH_GET_HEALTH_CHECK, nil)
 			},
 			setupMockService: func(ctx context.Context) *services_mocks.HealthCheckMock {
 				mockService := services_mocks.NewHealthCheckMock(t)
@@ -63,7 +63,7 @@ func TestHealthCheckHandler(t *testing.T) {
 				t.Errorf("expected status %d, got %d", tc.expectedStatus, rec.Code)
 			}
 			assert.Equal(t, tc.expectedStatus, rec.Code)
-			assert.Equal(t, tc.expectedResponse, rec.Body.String() == `{"message":config.OK_STATUS,"serviceName":config.BOOKMARK_SERVICE,"instanceID":config.HEALTH_CHECK_ID_DEFAULT}`)
+			assert.Equal(t, tc.expectedResponse, rec.Body.String() == `{"message":config.OK_STATUS,"serviceName":config.BOOKMARK_SERVICE`)
 		})
 	}
 }

@@ -23,7 +23,7 @@ func TestGenerateHealthCheckEndpoint(t *testing.T) {
 			name: "normal case",
 			// Initialize other fields as needed
 			setupTestApiEngine: func(api api.Engine) *httptest.ResponseRecorder {
-				req := httptest.NewRequest(http.MethodGet, config.HEALTH_CHECK_GET_PATH, nil)
+				req := httptest.NewRequest(http.MethodGet, config.PATH_GET_HEALTH_CHECK, nil)
 				rec := httptest.NewRecorder()
 				api.ServeHTTP(rec, req)
 				return rec
@@ -41,7 +41,7 @@ func TestGenerateHealthCheckEndpoint(t *testing.T) {
 			if rec.Code != tc.expectedStatus {
 				t.Errorf("expected status %d, got %d", tc.expectedStatus, rec.Code)
 			}
-			if rec.Body.String() == `{"message":config.OK_STATUS,"serviceName":config.BOOKMARK_SERVICE,"instanceID":config.HEALTH_CHECK_ID_DEFAULT}` != tc.expectedResponse {
+			if rec.Body.String() == `{"message":config.OK_STATUS,"serviceName":config.BOOKMARK_SERVICE` != tc.expectedResponse {
 				t.Errorf("expected response %v, got %s", tc.expectedResponse, rec.Body.String())
 			}
 

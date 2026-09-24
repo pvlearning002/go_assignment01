@@ -15,14 +15,14 @@ func TestHealthCheck(t *testing.T) {
 		name                string
 		expectedMessage     string
 		expectedServiceName string
-		expectedInstanceId  string
+		expectedInstanceId  uuid.UUID
 		expectError         error
 	}{
 		{
 			name:                "Health check returns OK",
 			expectedMessage:     config.OK_STATUS,
 			expectedServiceName: config.BOOKMARK_SERVICE,
-			expectedInstanceId:  config.HEALTH_CHECK_ID_DEFAULT,
+			expectedInstanceId:  uuid.New(),
 			expectError:         nil,
 		},
 	}
@@ -35,7 +35,7 @@ func TestHealthCheck(t *testing.T) {
 			assert.ErrorIs(t, err, tc.expectError)
 			assert.Equal(t, tc.expectedMessage, result.Message)
 			assert.Equal(t, tc.expectedServiceName, result.ServiceName)
-			assert.IsType(t, uuid.UUID{}, result.InstanceID)
+			assert.Equal(t, tc.expectedInstanceId, result.InstanceID)
 		})
 	}
 }
