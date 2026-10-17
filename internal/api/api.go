@@ -24,6 +24,7 @@ func NewEngine() Engine {
 		app: gin.Default(),
 	}
 	app.initRoutes()
+	config.InitConfig()
 	return app
 }
 

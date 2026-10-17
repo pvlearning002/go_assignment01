@@ -9,6 +9,7 @@ type Config struct {
 	BookmarkService    string `default:"bookmark_service" envconfig:"BOOKMARK_SERVICE"`
 	PathGetGenPass     string `default:"/genpass" envconfig:"PATH_GET_GEN_PASS"`
 	PathGetHealthCheck string `default:"/health" envconfig:"PATH_GET_HEALTH_CHECK"`
+	PasswordLengthDefault int    `default:"12" envconfig:"PASSWORD_LENGTH_DEFAULT"`
 }
 
 func NewConfig() (*Config, error) {

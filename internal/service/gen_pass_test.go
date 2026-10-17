@@ -34,8 +34,8 @@ func TestGeneratePassword(t *testing.T) {
 			t.Parallel()
 			testSvc := NewGenPass()
 			pass, err := testSvc.GeneratePassword(tc.expectedLength)
-			assert.Equal(t, tc.expectError, err)
 			assert.Equal(t, tc.expectedLength, len(pass))
+			assert.ErrorIs(t, err, tc.expectError)
 		})
 	}
 }

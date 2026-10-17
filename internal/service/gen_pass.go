@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"math"
 	"strings"
 
 	"github.com/google/uuid"
@@ -25,12 +24,10 @@ func (g *genPassService) GeneratePassword(length int) (string, error) {
 	}
 	dash := "-"
 	result := strings.ReplaceAll(uuid.New().String(), dash, "")
-	max_len := len(result)
-	if length > max_len {
-		var times int = int(math.Ceil(float64(length) / float64(max_len)))
-		for i := 0; i < times-1; i++ {
-			result += strings.ReplaceAll(uuid.New().String(), dash, "")
-		}
+	pass_len := len(result)
+	for (pass_len < length) {
+		result += strings.ReplaceAll(uuid.New().String(), dash, "")
+		pass_len = len(result)
 	}
 	result = result[:length]
 	return result, nil

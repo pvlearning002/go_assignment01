@@ -5,9 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/pvlearning002/go_assignment01/internal/service"
+	"github.com/pvlearning002/go_assignment01/internal/config"
 )
-
-const passwordLengthDefault = 12
 
 type GenPass interface {
 	GeneratePassword(c *gin.Context)
@@ -24,7 +23,7 @@ func NewGenPass(genPassSvc service.GenPass) GenPass {
 }
 
 func (g *genPassHandler) GeneratePassword(c *gin.Context) {
-	pass, err := g.genPassSvc.GeneratePassword(passwordLengthDefault)
+	pass, err := g.genPassSvc.GeneratePassword(config.PASSWORD_LENGTH_DEFAULT)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
 		return

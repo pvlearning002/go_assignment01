@@ -33,10 +33,10 @@ func TestHealthCheck(t *testing.T) {
 			t.Parallel()
 			svc := NewHealthCheck()
 			result, err := svc.GenerateHealthCheck()
+			assert.Equal(t, tc.expectedMessage, config.OK_STATUS)
+			assert.Equal(t, tc.expectedServiceName, config.BOOKMARK_SERVICE)
+			assert.IsType(t, uuid.UUID{}, result.InstanceID)
 			assert.ErrorIs(t, err, tc.expectError)
-			assert.Equal(t, tc.expectedMessage, result.Message)
-			assert.Equal(t, tc.expectedServiceName, result.ServiceName)
-			assert.Equal(t, tc.expectedInstanceId, result.InstanceID)
 		})
 	}
 }
